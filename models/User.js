@@ -55,7 +55,7 @@ userSchema.statics.register = async function (username, email, password) {
 }
 
 // Jämför hashade lösenordet
-userSchema.statics.comparePassword = async function (password) {
+userSchema.methods.comparePassword = async function (password) {
     try {
         return await bcrypt.compare(password, this.password);
     } catch (error) {
