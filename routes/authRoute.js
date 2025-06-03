@@ -14,6 +14,9 @@ mongoose.connect(process.env.DATABASE).then(() => {
     console.error('Fel vid anslutning till databas: ' + error);
 });
 
+// Användare model
+let User = require('../models/User');
+
 router.post('/register', async(req, res) => {
     try {
         let {username , email, password} = req.body;
