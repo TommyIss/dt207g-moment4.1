@@ -15,6 +15,27 @@ let port = process.env.PORT || 3000;
 // Routes
 app.use('/', authRoute);
 
+
+// Skyddad route
+app.get('/protected', authenticateToken, (req, res) => {
+    res.json({ message: 'Skyddad route!'});
+});
+
+function authenticateToken(req, res, next) {
+    let authHeaders = req.headers['authorization'];
+    let token = authHeaders && authHeaders.split(' ')[1]; 
+
+    if(token === null) {
+        res.status(401).json({message: 'Obehörig för denna route - token saknas'});
+    }
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, email) => {
+        if(err) {return res.status(403).json({message: 'Felaktigt JWT'})}
+
+        req.email = email;
+        next();
+    });
+}
+
 // Starta applikationen
 app.listen(port, () => {
     console.log('Server is running on port: ' + port);
