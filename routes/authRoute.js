@@ -30,7 +30,7 @@ router.post('/register', async(req, res) => {
         // Rätt inmatning - spara
         let user = new User({username, email, password});
         await user.save();
-        res.status(201).json({message: 'Användaren är skapad'});
+        res.status(201).json({message: 'Kontot har skapats!'});
     } catch(error) {
         res.status(500).json({error: 'Server fel'});
     }
